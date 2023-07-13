@@ -22,7 +22,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://s2.loli.net/2023/07/11/MBf9bhnRkYWwLAr.png">
 <meta property="article:published_time" content="2023-07-11T00:07:16.000Z">
-<meta property="article:modified_time" content="2023-07-12T13:53:38.782Z">
+<meta property="article:modified_time" content="2023-07-13T13:26:02.462Z">
 <meta property="article:author" content="Winged Frontier">
 <meta property="article:tag" content="算法">
 <meta property="article:tag" content="读书笔记">
@@ -251,7 +251,7 @@
   
           </div>
           <div class="wordcount need-seperator meta-info">
-            2.1k words 
+            2.4k words 
           </div>
         </div>
         
@@ -314,7 +314,7 @@
 <div class="tips">
 <p>这并不意味着不值得研究令人困惑和困难的算法。 即使在实现算法时遇到困难，也可以在尝试中学到很多东西。随着时间的推移，你的算法直觉和技能将会增强，因此你曾经认为令人困惑的算法将看起来更容易处理。但是，我们必须始终彻底测试所有算法，以确保它们产生正确的结果。</p>
 </div>
-<h2 id="big-o-notation大o表示法">Big O Notation（大O表示法）</h2>
+<h1 id="big-o-notation大o表示法">Big O Notation（大O表示法）</h1>
 <p>当一个问题很复杂，解决规模很大的时候，可以使用大O表示法来设计一个函数，他们表示算法的最坏情况性能与问题规模之间的关系。（这有时称为程序的<strong>渐近性能</strong>。）该函数写在大写字母 O 后面的括号内。</p>
 <p>例如，O(<span class="math inline">\(N^2\)</span>) 意味着算法的运行时间（或内存使用量或您正在测量的任何内容）随着输入数量 N 的平方而增加。如果将输入数量加倍，则运行时间大约会增加 4 倍。同样，如果将输入数量增加两倍，则运行时间会增加 9 倍。</p>
 <p>大 O 表示法有五个基本规则。</p>
@@ -322,7 +322,18 @@
 <li><p>如果算法对数学函数 <span class="math inline">\(f\)</span> 执行特定的步骤顺序 <span class="math inline">\(f(N)\)</span> 次，则需要 <span class="math inline">\(O(f(N))\)</span> 个步骤。</p></li>
 <li><p>如果一个算法对数学函数 <span class="math inline">\(f_1\)</span> 执行特定的步骤顺序 <span class="math inline">\(f_1(N)\)</span> 次，再对数学函数 <span class="math inline">\(f_2\)</span> 执行特定的步骤顺序 <span class="math inline">\(f_2(N)\)</span> 次，如此类推，整个算法的步骤为<span class="math inline">\(O(\sum\limits_{i=1}^{n}f_n(N) )\)</span></p></li>
 <li><p>如果算法需要 <span class="math inline">\(O(f_1(N) + f_2(N))\)</span> 时间，并且对于较大的 <span class="math inline">\(N\)</span>，函数 <span class="math inline">\(f_1(N)\)</span> 大于 <span class="math inline">\(f_2(N)\)</span>，则该算法的性能可以简化为 <span class="math inline">\(O(f_1(N))\)</span>。</p></li>
+<li><p>如果算法执行需要 <span class="math inline">\(O(f_1(N))\)</span> 步骤的操作，并且对于该操作中的每个步骤，它执行另一个 <span class="math inline">\(O(F_2(N))\)</span> 步骤，则该算法的总性能为 $_{i=1}^{n}f_n(N) $。</p></li>
+<li><p>忽略常量倍数。 如果 <span class="math inline">\(C\)</span> 是常数，则 <span class="math inline">\(O(C\times f(N))\)</span> 与 <span class="math inline">\(O(f(N))\)</span> 相同，<span class="math inline">\(O(f(C\times N))\)</span> 与 <span class="math inline">\(O(f(N))\)</span> 相同。</p></li>
 </ol>
+<div class="tips">
+<p>类似于加法计数原理和乘法计数原理，加法计数原理的本质是分类计算，而乘法计数原理的本质是分布计算（来自高中教材选择性必修三人教A版）</p>
+</div>
+<p>下面是对五个基本规则的解释：</p>
+<h2 id="规则1">规则1</h2>
+<p>如果算法对数学函数 <span class="math inline">\(f\)</span> 执行特定的步骤序列 <span class="math inline">\(f(N)\)</span> 次，则需要 <span class="math inline">\(O(f(N))\)</span> 个步骤。</p>
+<p>下面是伪代码：本质是一个一个比较，然后去掉小的那一个</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Integer: FindLargest(Integer: array[])</span><br><span class="line">  Integer: largest = array[0]</span><br><span class="line">  For i = 1 To &lt;largest index&gt;</span><br><span class="line">    If (array[i] &gt; largest) Then largest = array[i]</span><br><span class="line">  Next i</span><br><span class="line">  Return largest</span><br><span class="line">End FindLargest</span><br></pre></td></tr></table></figure>
+<p>在一个数组中，我们把所有的<span class="math inline">\(N\)</span>个数字都比了个遍，所以需要<span class="math inline">\(O(f(N))\)</span> 个步骤。</p>
 <p><br /><strong>本文地址</strong>： <a href="https://walljygz.top/posts/48591.html">https://walljygz.top/posts/48591.html</a> <br /><strong>版权声明</strong>：转载请注明出处！</p>
 
         
