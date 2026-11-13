@@ -1,0 +1,95 @@
+name: CI
+
+# 触发条件：
+# - 向 main 推送 -> 检查 + 构建 + 发布到 GitHub Pages
+# - PR -> 只做检查与构建（不发布）
+# - 手动运行（Actions 页面 Run workflow）
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+# GitHub Pages 官方部署需要：仓库只读 + Pages 写 + OIDC 令牌
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 同一分支的并发 run 互相取消，避免 PR 检查排队堆积；
+# 生产发布另有独立并发组（见 deploy 任务），不会被取消。
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Code standards & build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: "☁️ Checkout repository"
+        uses: actions/checkout@v7
+
+      - name: "📦 Install pnpm"
+        uses: pnpm/action-setup@v6
+        with:
+          version: "11.3.0"
+
+      - name: "🟢 Use Node.js"
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+          cache: "pnpm"
+
+      - name: "📦 Install dependencies"
+        run: pnpm install --frozen-lockfile
+
+      - name: "🔎 Lint code"
+        run: pnpm run lint
+
+      - name: "📝 Checking code format"
+        run: pnpm run format:check
+
+      # pnpm run build = astro check && astro build && pagefind --site dist && node copy-pagefind.mjs
+      # PUBLIC_GOOGLE_SITE_VERIFICATION 为可选项，未配置仓库变量时为空字符串，不影响构建
+      - name: "🚀 Build the project"
+        run: pnpm run build
+        env:
+          PUBLIC_GOOGLE_SITE_VERIFICATION: ${{ vars.PUBLIC_GOOGLE_SITE_VERIFICATION }}
+
+      - name: "🧩 Configure Pages"
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+        uses: actions/configure-pages@v6
+
+      - name: "📤 Upload Pages artifact"
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: ./dist
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    # 仅 main 上的推送或手动运行才发布；PR 只跑 build
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    # 只允许一个发布在跑，且不取消进行中的发布，保证线上始终是完整版本
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: "🚀 Deploy to GitHub Pages"
+        id: deployment
+        uses: actions/deploy-pages@v5
