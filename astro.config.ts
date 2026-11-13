@@ -21,8 +21,8 @@ import {
   rehypeInlineToc,
 } from "./src/utils/rehypeInlineToc";
 import config from "./astro-paper.config";
-import remarkMath from "remark-math"; 
-import rehypeKatex from "rehype-katex"; 
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
 // One entry per file in src/i18n/lang/ (the file name is the locale code).
 const LOCALES = ["en", "zh"] as const;
 
@@ -32,8 +32,9 @@ const LOCALES = ["en", "zh"] as const;
 // single field in astro-paper.config.ts.
 const siteLocale = LOCALES.find(locale => locale === config.site.lang);
 if (!siteLocale) {
-  console.warn(
-    `[i18n] site.lang "${config.site.lang}" has no matching src/i18n/lang/${config.site.lang}.ts file; falling back to "en".`
+  throw new Error(
+    `[i18n] site.lang "${config.site.lang}" has no matching src/i18n/lang/${config.site.lang}.ts file. ` +
+      `Add that locale file or set site.lang to one of: ${LOCALES.join(", ")}.`
   );
 }
 
@@ -49,7 +50,7 @@ export default defineConfig({
   ],
   i18n: {
     locales: [...LOCALES],
-    defaultLocale: siteLocale ?? "en",
+    defaultLocale: siteLocale,
     routing: {
       prefixDefaultLocale: false,
     },

@@ -1,7 +1,7 @@
 ---
 author: Timothy Starman
 pubDatetime: 2026-11-13T17:30:00Z
-modDatetime: 2026-11-13T17:30:00Z
+modDatetime: 2026-11-13T18:30:00Z
 title: 从零开始办比赛
 featured: true
 draft: false
@@ -17,7 +17,7 @@ description: 一个 Domjudge 办赛教程
 
 如果你是一个老登但对如何开比赛有相关疑问，希望自己也能开一场完美的比赛，流程涵盖 命题格式，前期准备，气球发送，以及 IP 无缝登录，赛时大屏，滚榜，甚至后面我可能会写一个如何封装一个自己的操作系统。那这个教程可能很适合你，如果你是大手子，有对文章异议的，可以直接提出修改（在此感谢以 CSL 为代表的技术团队）。
 
-如果对这个教程有任何问题，或者自己在配置的过程中出现无法解决的问题，欢迎私信我邮箱 timothystarman2005@outlook.com；由于 domjudge 中文交流群是邀请制，为了尊重社区意见，如果想要加入这个群，请在邮箱内说明邀请。
+如果对这个教程有任何问题，或者自己在配置的过程中出现无法解决的问题，欢迎私信我邮箱 timothystarman2005@outlook.com；~~由于 domjudge 中文交流群是邀请制，为了尊重社区意见，如果想要加入这个群，请在邮箱内说明邀请~~ (我已经似了)。
 
 ## 前期准备
 
@@ -435,23 +435,23 @@ validation: custom interactive
 
 ```json
 [
-    {
-        "id": "1",
-        "name": "Participants"
-    },
-    {
-        "id": "2",
-        "name": "Girls"
-    },
-    {
-        "id": "3",
-      	"name": "Stars"
-    },
-  	{
-      	"id": "0",
-      	"name": "Observer",
-      	"hidden": true	// 管理员使用，用于后台提交测试
-    },
+  {
+    "id": "1",
+    "name": "Participants"
+  },
+  {
+    "id": "2",
+    "name": "Girls"
+  },
+  {
+    "id": "3",
+    "name": "Stars"
+  },
+  {
+    "id": "0",
+    "name": "Observer",
+    "hidden": true // 管理员使用，用于后台提交测试
+  }
 ]
 ```
 
@@ -464,24 +464,24 @@ validation: custom interactive
 
 ```json
 [
-    {
-        "id": "THU",
-        "name": "THU",
-        "formal_name": "Tsinghua University",
-        "country": "CHN"
-    },
-    {
-        "id": "CZU",
-        "name": "CZU",
-        "formal_name": "Changzhou University",
-        "country": "CHN"
-    },
-    {
-        "id": "JSUT",
-        "name": "JSUT",
-        "formal_name": "Jiangsu University of Technology",
-        "country": "CHN"
-    }
+  {
+    "id": "THU",
+    "name": "THU",
+    "formal_name": "Tsinghua University",
+    "country": "CHN"
+  },
+  {
+    "id": "CZU",
+    "name": "CZU",
+    "formal_name": "Changzhou University",
+    "country": "CHN"
+  },
+  {
+    "id": "JSUT",
+    "name": "JSUT",
+    "formal_name": "Jiangsu University of Technology",
+    "country": "CHN"
+  }
 ]
 ```
 
@@ -493,24 +493,20 @@ validation: custom interactive
 
 ```json
 [
-    {
-        "id": "1",
-        "label": "A1",  //座位号，配置气球小票机很有用
-        "group_ids": [
-            "1"
-        ],
-        "name": "零基础新生一队",
-        "organization_id": "THU"
-    },
-    {
-        "id": "2",
-        "label": "B2",
-        "group_ids": [
-            "2"
-        ],
-        "name": "wf 皇帝",
-        "organization_id": "JSUT"
-    }
+  {
+    "id": "1",
+    "label": "A1", //座位号，配置气球小票机很有用
+    "group_ids": ["1"],
+    "name": "零基础新生一队",
+    "organization_id": "THU"
+  },
+  {
+    "id": "2",
+    "label": "B2",
+    "group_ids": ["2"],
+    "name": "wf 皇帝",
+    "organization_id": "JSUT"
+  }
 ]
 ```
 
@@ -522,22 +518,22 @@ validation: custom interactive
 
 ```json
 [
-    {
-        "id": "jsut-team-001",
-        "username": "jsut-team-001",
-        "password": "hfqifhew938",
-        "type": "team",
-        "team_id": "2",
-        "name": "wf 皇帝"
-    },
-    {
-        "id": "thu-team-001",
-        "username": "thu-team-001",
-        "password": "fh3uiyf92ui",
-        "type": "team",
-        "team_id": "1",
-        "name": "零基础新生一队"
-    }
+  {
+    "id": "jsut-team-001",
+    "username": "jsut-team-001",
+    "password": "hfqifhew938",
+    "type": "team",
+    "team_id": "2",
+    "name": "wf 皇帝"
+  },
+  {
+    "id": "thu-team-001",
+    "username": "thu-team-001",
+    "password": "fh3uiyf92ui",
+    "type": "team",
+    "team_id": "1",
+    "name": "零基础新生一队"
+  }
 ]
 ```
 
@@ -553,12 +549,12 @@ validation: custom interactive
 
 ```json
 {
-    "id": "jsutcpc",
-    "name": "Jiangsu University of Technology Collegiate Programming Contest",
-    "start_time": "2026-05-23T13:00:00+08:00",
-    "duration": "4:00:00",
-    "scoreboard_freeze_duration": "1:00:00",
-    "penalty_time": "20"
+  "id": "jsutcpc",
+  "name": "Jiangsu University of Technology Collegiate Programming Contest",
+  "start_time": "2026-05-23T13:00:00+08:00",
+  "duration": "4:00:00",
+  "scoreboard_freeze_duration": "1:00:00",
+  "penalty_time": "20"
 }
 ```
 
@@ -572,7 +568,7 @@ validation: custom interactive
 
 这是几乎所有 ICPC Tools 的前置工具，用于解析比赛数据的服务器，你可以在这里找到 https://tools.icpc.global/cds/。
 
-运行这个工具需要使用 `Java` 我这里使用的是 `OpenJDK-21-JDK` 
+运行这个工具需要使用 `Java` 我这里使用的是 `OpenJDK-21-JDK`
 
 ```bash
 sudo apt install openjdk-21-jdk
@@ -646,15 +642,14 @@ cid 就是上面 json 比赛文件指定的 id，例如我这里就是 `jsutcpc`
 type: domjudge # 选择 domjudge
 viewPass: Y235H3gC # 设置一个管理员密码
 secretRoute: ynKiOZv4IDwZ # 设置一个打印路由
-customKeyfile: 
+customKeyfile:
 # if type is server, the following is not needed
 server: http://127.0.0.1/domjudge
-token: 
+token:
 username: admin # domjudge 管理员
 password: domjudge_admin_password # domjudge 管理员密码
 monitor:
   timeSync: false
-
 ```
 
 填写好配置重启后即可使用，程序默认监听 0.0.0.0 ，可通过 `http://服务IP:5283` 访问 UI 界面。服务用户名为 `admin` ，密码为填写的 `viewPass` 。
@@ -671,14 +666,16 @@ Client 端的配置文件为 `config.yaml` ，配置文件介绍如下：
 
 ```js
 const clientSchema = Schema.object({
-    server: Schema.string().role('url').required(), // XCPC-TOOLS 服务地址
-    balloon: Schema.string(), // 气球小票机路径或名称，请自行根据启动后的提示填写
-    balloonLang: Schema.union(['zh', 'en']).default('zh').required(), // 气球小票语言
-    balloonType: Schema.union([58, 80]).default(80), // 气球小票机纸张宽度
-    printColor: Schema.boolean().default(false), // 是否打印彩色代码
-    printers: Schema.array(Schema.string()).default([]).description('printer id list, will disable printing if unset'), // 打印机列表，如果为空则不启用打印功能
-    token: Schema.string().required().description('Token generated on server'), // 服务端 Token
-    fonts: Schema.array(Schema.string()).default([]), // 额外字体路径
+  server: Schema.string().role("url").required(), // XCPC-TOOLS 服务地址
+  balloon: Schema.string(), // 气球小票机路径或名称，请自行根据启动后的提示填写
+  balloonLang: Schema.union(["zh", "en"]).default("zh").required(), // 气球小票语言
+  balloonType: Schema.union([58, 80]).default(80), // 气球小票机纸张宽度
+  printColor: Schema.boolean().default(false), // 是否打印彩色代码
+  printers: Schema.array(Schema.string())
+    .default([])
+    .description("printer id list, will disable printing if unset"), // 打印机列表，如果为空则不启用打印功能
+  token: Schema.string().required().description("Token generated on server"), // 服务端 Token
+  fonts: Schema.array(Schema.string()).default([]), // 额外字体路径
 });
 ```
 
